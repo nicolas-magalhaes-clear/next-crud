@@ -2,6 +2,7 @@ interface BotaoProps{
     cor?: 'green' | 'blue' | 'gray'
     children: any
     className?: string
+    onClick?: () => void
 }
 
 
