@@ -8,7 +8,7 @@ interface LayoutProps{
 export default function Layout(props: LayoutProps) {
 
     return (
-        <div className="flex flex-col w-2/3 bg-white text-gray-800">
+        <div className="flex flex-col w-2/3 bg-white text-gray-800 p-3 rounded-lg">
             <div>
                 <Titulo>{props.title}</Titulo>
             </div>
