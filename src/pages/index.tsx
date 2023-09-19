@@ -2,17 +2,27 @@ import Botao from "@/components/Botao";
 import Formulario from "@/components/Formulario";
 import Layout from "@/components/Layout";
 import Tabela from "@/components/TabelaProps";
+
 import Cliente from "@/core/Cliente";
-import { useState } from "react";
+import ClienteRespositorio from "@/core/ClienteRepositorio";import ColecaoCliente from "@/backend/db/ColecaoCliente";
+import { useEffect, useState } from "react";
 export default function Home() {
 
-  const clientes = [
-    new Cliente('Ana', 34, '1'),
-    new Cliente('Bia', 45, '2'),
-    new Cliente('Carlos', 23, '3'),
-    new Cliente('Pedro', 4, '4')
+  const repo: ClienteRespositorio  = new ColecaoCliente()
 
-  ]
+
+  const [cliente,setCliente] = useState<Cliente>(Cliente.vazio)
+  const [clientes,setClientes] = useState<Cliente[]>([])
+  const [visivel, setVisivel] = useState<'tabela' | 'form'>('tabela')
+
+  useEffect(obterTodos, [])
+  
+  function obterTodos(){
+    repo.obterTodos().then((clientes)=>{
+      setClientes(clientes);
+      setVisivel('tabela')
+    })
+  }
 
   function clienteSelecionado(cliente: Cliente) {
     setCliente(cliente);
@@ -22,8 +32,8 @@ export default function Home() {
     console.log('Cliente nome:', cliente.nome)
   }
 
-  function salvarCliente(cliente: Cliente){
-      console.log('Cliente:', cliente)
+  async function salvarCliente(cliente: Cliente){
+      await repo.salvar(cliente);
       setVisivel('tabela');
   }
   function novoCliente(){
@@ -31,8 +41,8 @@ export default function Home() {
     setVisivel('form')
   }
 
-  const [cliente,setCliente] = useState(Cliente.vazio)
-  const [visivel, setVisivel] = useState<'tabela' | 'form'>('tabela')
+  
+  
 
   return (
     <div className="flex h-screen justify-center items-center bg-gradient-to-r from-blue-500 to-purple-500 text-white">
